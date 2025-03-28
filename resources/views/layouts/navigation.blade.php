@@ -18,29 +18,29 @@
                 </div>
                 @role('owner')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.category.index')" :active="request()->routeIs('admin.category.index')">
-                            {{ __('Categories Management') }}
+                        <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
+                            {{ __('Categories') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index')">
-                            {{ __('Products Management') }}
+                            {{ __('Products') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('admin.product_transactions.index')" :active="request()->routeIs('admin.product_transactions.index')">
-                            {{ __('Transactions Management') }}
+                            {{ __('Transactions') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('admin.buyers.index')" :active="request()->routeIs('admin.buyers.index')">
-                            {{ __('Buyers Management') }}
+                            {{ __('Buyers') }}
                         </x-nav-link>
                     </div>
                 @endrole
                 @role('buyer')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('buyer.product_transactions.index')" :active="request()->routeIs('buyer.product_transactions.index')">
+                        <x-nav-link :href="route('buyer.cart.index')" :active="request()->routeIs('buyer.cart.index')">
                             {{ __('Cart') }}
                         </x-nav-link>
                     </div>

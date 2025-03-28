@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -21,6 +22,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('products', ProductController::class)->middleware('role:owner');
         Route::resource('categories', CategoryController::class)->middleware('role:owner');
+        Route::resource('buyers', CategoryController::class)->middleware('role:owner');
+        Route::resource('product_transactions', CategoryController::class)->middleware('role:owner');
+    });
+    Route::prefix('buyer')->name('buyer.')->group(function () {
+        Route::resource('cart', CartController::class)->middleware('role:buyer');
     });
 });
 
