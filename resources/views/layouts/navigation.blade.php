@@ -18,8 +18,30 @@
                 </div>
                 @role('owner')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('admin.category.index')" :active="request()->routeIs('admin.category.index')">
+                            {{ __('Categories Management') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index')">
-                            {{ __('Manage Products') }}
+                            {{ __('Products Management') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('admin.product_transactions.index')" :active="request()->routeIs('admin.product_transactions.index')">
+                            {{ __('Transactions Management') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('admin.buyers.index')" :active="request()->routeIs('admin.buyers.index')">
+                            {{ __('Buyers Management') }}
+                        </x-nav-link>
+                    </div>
+                @endrole
+                @role('buyer')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('buyer.product_transactions.index')" :active="request()->routeIs('buyer.product_transactions.index')">
+                            {{ __('Cart') }}
                         </x-nav-link>
                     </div>
                 @endrole
