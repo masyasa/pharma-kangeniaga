@@ -2,9 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    //
+    use HasFactory;
+    protected $fillabel = ['name', 'slug', 'photo', 'price', 'about'];
+
+    public function transactions()
+    {
+        return $this->hasMany(TransactionDetail::class);
+    }
 }

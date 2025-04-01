@@ -29,6 +29,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
         return view('admin.categories.create');
     }
 
@@ -38,19 +41,17 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-        // $request->validate([
-        //     'name' => 'required|string|min:1',
-        //     'slug' => 'required|string|min:1',
-        // ]);
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:categories|max:255'
         ]);
         if ($validator->fails()) {
-            return redirect('/category-add')
+            return redirect('/admin/categories/create')
                 ->withErrors($validator)
                 ->withInput();
         }
-        // dd($request);
         $request['slug'] = Str::of($request->name)->slug('-');
         $data = $request->all();
         $category =  Category::create($data);
@@ -77,7 +78,6 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        // dd($category);
         //tidak apa apa method hasRole undefined, tetep jalan kok
         if (!Auth::user()->hasRole('owner')) {
             abort(403, 'Unauthorized action.');
@@ -91,6 +91,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
         $validator = Validator::make($request->all(), [
             'name' => [
                 'required',
@@ -116,6 +119,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
         // $category =  Category::where('slug', $slug)->first();
         $category->delete();
         Session::flash('status', 'success');

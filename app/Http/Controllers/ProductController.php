@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -12,7 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+        return view('admin.products.index', ['products' => $products]);
     }
 
     /**
@@ -20,7 +27,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
+        return view('admin.products.create');
     }
 
     /**
@@ -28,7 +38,25 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:products|max:255'
+        ]);
+        if ($validator->fails()) {
+            return redirect('/admin/products/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $request['slug'] = Str::of($request->name)->slug('-');
+        $data = $request->all();
+        $product =  Product::create($data);
+
+        Session::flash('status', 'success');
+        Session::flash('message', 'Your new product was stored!');
+
+        return redirect('admin/products');
     }
 
     /**
@@ -44,7 +72,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
+        // $category = Category::where('slug', $slug)->first();
+        return view('admin.products.edit', ['product' => $product]);
     }
 
     /**
@@ -52,7 +84,27 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
+        $validator = Validator::make($request->all(), [
+            'name' => [
+                'required',
+                Rule::unique('products')->ignore($product),
+                'max:255'
+            ],
+        ]);
+        if ($validator->fails()) {
+            return redirect('/admin.products.edit')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $request['slug'] = Str::of($request['name'])->slug('-');
+        $product->update($request->all());
+        // dd($category);
+        Session::flash('status', 'success');
+        Session::flash('message', "Product $product->name was updated!");
+        return redirect('admin/products');
     }
 
     /**
@@ -60,6 +112,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
+        $product->delete();
+        Session::flash('status', 'success');
+        Session::flash('message', "Product $product->name was deleted!");
+        return redirect('admin/products');
     }
 }
