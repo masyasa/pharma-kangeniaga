@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+
 
 class CategoryController extends Controller
 {
@@ -30,15 +37,29 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|min:1',
-            'slug' => 'required|string|min:1',
+
+        // $request->validate([
+        //     'name' => 'required|string|min:1',
+        //     'slug' => 'required|string|min:1',
+        // ]);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:categories|max:255'
         ]);
-        Category::create([
-            'name' => $request->name,
-            'slug' => $request->slug,
-            'icon' => $request->icon,
-        ]);
+        if ($validator->fails()) {
+            return redirect('/category-add')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        // dd($request);
+        $request['slug'] = Str::of($request->name)->slug('-');
+        $data = $request->all();
+        $category =  Category::create($data);
+
+        Session::flash('status', 'success');
+        Session::flash('message', 'Your new category was stored!');
+
+        return redirect('admin/categories');
+
 
         //
     }
@@ -56,7 +77,13 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        // dd($category);
+        //tidak apa apa method hasRole undefined, tetep jalan kok
+        if (!Auth::user()->hasRole('owner')) {
+            abort(403, 'Unauthorized action.');
+        }
+        // $category = Category::where('slug', $slug)->first();
+        return view('admin.categories.edit', ['category' => $category]);
     }
 
     /**
@@ -64,7 +91,24 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => [
+                'required',
+                Rule::unique('categories')->ignore($category),
+                'max:255'
+            ],
+        ]);
+        if ($validator->fails()) {
+            return redirect('/admin.categories.edit')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $request['slug'] = Str::of($request['name'])->slug('-');
+        $category->update($request->all());
+        // dd($category);
+        Session::flash('status', 'success');
+        Session::flash('message', "Category $category->name was updated!");
+        return redirect('admin/categories');
     }
 
     /**
@@ -72,6 +116,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        // $category =  Category::where('slug', $slug)->first();
+        $category->delete();
+        Session::flash('status', 'success');
+        Session::flash('message', "Category $category->name was deleted!");
+        return redirect('admin/categories');
+        dd($category);
         //
     }
 }

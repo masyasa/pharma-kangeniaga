@@ -10,18 +10,16 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- {{ __("You're logged in!") }} --}}
-                    @livewire('form-add-category')
-                    {{-- <form action="/admin/categories" method="POST">
+                    {{-- @livewire('form-add-category') --}}
+                    <form action="{{ route('admin.categories.store') }}" method="POST">
                         @csrf
-                        @method('POST')
-                        <label for="name" class="form-label"></label><input class="form-control" type="text"
-                            name="name">
-                        <label for="slug" class="form-label"></label><input class="form-control" type="text"
-                            name="slug">
-                        <label for="icon" class="form-label"></label><input class="form-control" type="text"
-                            name="icon">
+                        <div><label for="name" class="form-label">Nama :</label><input class="form-control"
+                                type="text" name="name"></div>
+                        <div><label for="icon" class="form-label">Icon :</label><input class="form-control"
+                                type="text" name="icon"></div>
+
                         <button type="submit" class="btn btn-primary">Tambah Category</button>
-                    </form> --}}
+                    </form>
                 </div>
             </div>
         </div>

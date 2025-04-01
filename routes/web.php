@@ -21,11 +21,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::resource('products', ProductController::class)->middleware('role:owner');
-        Route::resource('categories', CategoryController::class)->middleware('role:owner');
-        Route::resource('buyers', BuyerController::class)->middleware('role:owner');
-        Route::resource('product_transactions', ProductTransactionController::class)->middleware('role:owner');
+    Route::prefix('admin')->name('admin.')->middleware('role:owner')->group(function () {
+        Route::resource('products', ProductController::class)->parameters(['products' => 'product:slug']);;
+        Route::resource('categories', CategoryController::class)->parameters(['categories' => 'category:slug']);
+        Route::resource('buyers', BuyerController::class)->parameters(['buyers' => 'buyer:slug']);;
+        Route::resource('product_transactions', ProductTransactionController::class)->parameters(['product_transactions' => 'product_transaction:slug']);;
     });
     Route::prefix('buyer')->name('buyer.')->group(function () {
         Route::resource('cart', CartController::class)->middleware('role:buyer');
