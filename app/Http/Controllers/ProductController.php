@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -30,7 +31,8 @@ class ProductController extends Controller
         if (!Auth::user()->hasRole('owner')) {
             abort(403, 'Unauthorized action.');
         }
-        return view('admin.products.create');
+        $categories = Category::all();
+        return view('admin.products.create', ['categories' => $categories]);
     }
 
     /**

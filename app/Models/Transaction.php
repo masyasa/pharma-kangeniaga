@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
-    protected $fillabel = [
+    protected $fillable = [
         'user_id',
         'total_amount',
         'is_paid',

@@ -18,13 +18,36 @@
                                     :</label><input
                                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     type="text" name="name"></div>
-                            <div><label for="icon" class="block text-sm font-medium text-gray-600">Icon
+                            <div><label for="slug" class="block text-sm font-medium text-gray-600">Slug
                                     :</label><input
                                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    type="text" name="icon"></div>
+                                    type="text" name="slug"></div>
+                            <div><label for="photo" class="block text-sm font-medium text-gray-600">Photo
+                                    :</label><input
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    type="text" name="photo"></div>
+                            <div><label for="price" class="block text-sm font-medium text-gray-600">Price
+                                    :</label><input
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    type="text" name="price"></div>
+                            <div><label for="about" class="block text-sm font-medium text-gray-600">About
+                                    :</label><input
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    type="text" name="about"></div>
+
+                            <div>
+                                <label for="about" class="block text-sm font-medium text-gray-600">Kategori
+                                    :</label>
+                                <select name="categories[]" id="category" multiple>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->name }}">
+                                            {{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="text-center "><button type="submit"
                                     class="mt-4 w-56 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">Tambah
-                                    Category</button></div>
+                                    Produk</button></div>
 
                         </form>
                     </div>

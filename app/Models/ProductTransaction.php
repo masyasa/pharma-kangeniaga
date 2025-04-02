@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductTransaction extends Model
 {
-    protected $fillabel = [
+    protected $fillable = [
         'product_transaction_id',
         'product_id',
         'price'

@@ -9,7 +9,7 @@ use PhpParser\Node\Expr\FuncCall;
 class Cart extends Model
 {
     use HasFactory;
-    protected $fillabel = ['user_id', 'product_id'];
+    protected $fillable = ['user_id', 'product_id'];
     public function buyer()
     {
         return $this->belongsTo(User::class);
