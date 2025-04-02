@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Buyers') }}
@@ -26,6 +27,7 @@
                             {{ session('message') }}
                         </div>
                     @endif
+
                     <div class="d-flex justify-content-end mb-3">
                         <a class="bg-gray-100 border-b hover:bg-gray-200 btn btn-primary btn-sm me-2"
                             href="/buyer-deleted">Deleted Buyer</a>
@@ -47,8 +49,7 @@
                             <tr class="bg-gray-800 text-white rounded-t-lg text-center">
                                 <th class="py-3 px-6">No.</th>
                                 <th class="py-3 px-6">Nama</th>
-                                <th class="py-3 px-6">Slug</th>
-                                <th class="py-3 px-6">Icon</th>
+                                <th class="py-3 px-6">Name</th>
                                 <th class="py-3 px-6">Aksi</th>
                             </tr>
                         </thead>
@@ -57,20 +58,19 @@
                                 <tr class="bg-gray-100 border-b hover:bg-gray-200 text-center">
                                     <td class="py-3 px-6 ">{{ $loop->iteration }}</td>
                                     <td class="py-3 px-6 ">{{ $item->name }}</td>
-                                    <td class="py-3 px-6 ">{{ $item->slug }}</td>
-                                    <td class="py-3 px-6">{{ $item->icon }}</td>
+                                    <td class="py-3 px-6 ">{{ $item->email }}</td>
                                     <td class="py-3 px-6">
-
                                         {{-- <a href={{route('/admin/buyers/ {{ $item->slug}}/edit')}}
                                             class="inline-flex items-center px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a> --}}
-                                        <a href="{{ route('admin.buyers.edit', $item->slug) }}"
+
+                                        <a href="{{ route('admin.buyers.edit', $item->name) }}"
                                             class="inline-flex items-center px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
 
-                                        <form action="{{ route('admin.buyers.destroy', $item->slug) }}" method="POST"
+                                        <form action="{{ route('admin.buyers.destroy', $item->name) }}" method="POST"
                                             class="inline"
                                             onsubmit="return confirm('Anda yakin akan menghapus buyer: {{ $item->name }}?');">
                                             @csrf

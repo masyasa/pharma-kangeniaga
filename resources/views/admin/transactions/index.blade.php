@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Product Transactions') }}
+            {{ __('Transactions') }}
         </h2>
     </x-slot>
 
@@ -28,9 +28,9 @@
                     @endif
                     <div class="d-flex justify-content-end mb-3">
                         <a class="bg-gray-100 border-b hover:bg-gray-200 btn btn-primary btn-sm me-2"
-                            href="/transaksi produk-deleted">Deleted Category</a>
+                            href="/transaksi-deleted">Deleted Transaction</a>
                         <a class="bg-gray-100 border-b hover:bg-gray-200 btn btn-primary btn-sm "
-                            href="{{ route('admin.product_transactions.create') }}">Add Category</a>
+                            href="{{ route('admin.transactions.create') }}">Add Transaction</a>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($product_transactions as $item)
+                            @foreach ($transactions as $item)
                                 <tr class="bg-gray-100 border-b hover:bg-gray-200 text-center">
                                     <td class="py-3 px-6 ">{{ $loop->iteration }}</td>
                                     <td class="py-3 px-6 ">{{ $item->name }}</td>
@@ -61,18 +61,18 @@
                                     <td class="py-3 px-6">{{ $item->icon }}</td>
                                     <td class="py-3 px-6">
 
-                                        {{-- <a href={{route('/admin/product_transactions/ {{ $item->slug}}/edit')}}
+                                        {{-- <a href={{route('/admin/transactions/ {{ $item->slug}}/edit')}}
                                             class="inline-flex items-center px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a> --}}
-                                        <a href="{{ route('admin.product_transactions.edit', $item->slug) }}"
+                                        <a href="{{ route('admin.transactions.edit', $item->slug) }}"
                                             class="inline-flex items-center px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
 
-                                        <form action="{{ route('admin.product_transactions.destroy', $item->slug) }}"
+                                        <form action="{{ route('admin.transactions.destroy', $item->slug) }}"
                                             method="POST" class="inline"
-                                            onsubmit="return confirm('Anda yakin akan menghapus transaksi produk: {{ $item->name }}?');">
+                                            onsubmit="return confirm('Anda yakin akan menghapus transaksi : {{ $item->name }}?');">
                                             @csrf
                                             @method('DELETE')
                                             {{-- <input type="hidden"> --}}

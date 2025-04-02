@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -11,15 +11,15 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
-class BuyerController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $buyers = User::role('buyer')->get();
-        return view('admin.buyers.index', ['buyers' => $buyers]);
+        $transactions = Transaction::all();
+        return view('admin.transactions.index', ['transactions' => $transactions]);
     }
 
     /**
@@ -27,7 +27,7 @@ class BuyerController extends Controller
      */
     public function create()
     {
-        return view('admin.buyers.create');
+        return view('admin.transactions.create');
     }
 
     /**
@@ -35,26 +35,25 @@ class BuyerController extends Controller
      */
     public function store(Request $request)
     {
-
         if (!Auth::user()->hasRole('owner')) {
             abort(403, 'Unauthorized action.');
         }
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:users|max:255'
+            'name' => 'required|unique:transactions|max:255'
         ]);
         if ($validator->fails()) {
-            return redirect('/admin/buyers/create')
+            return redirect('/admin/transactions/create')
                 ->withErrors($validator)
                 ->withInput();
         }
         $request['slug'] = Str::of($request->name)->slug('-');
         $data = $request->all();
-        $buyer =  User::create($data);
+        $transaction =  Transaction::create($data);
 
         Session::flash('status', 'success');
-        Session::flash('message', 'Your new buyer was stored!');
+        Session::flash('message', 'Your new transaction was stored!');
 
-        return redirect('admin/buyers');
+        return redirect('admin/transactions');
 
 
         //
@@ -63,7 +62,7 @@ class BuyerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $buyer)
+    public function show(Transaction $transaction)
     {
         //
     }
@@ -71,21 +70,21 @@ class BuyerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $buyer)
+    public function edit(Transaction $transaction)
     {
 
         //tidak apa apa method hasRole undefined, tetep jalan kok
         if (!Auth::user()->hasRole('owner')) {
             abort(403, 'Unauthorized action.');
         }
-        // $buyer = User::where('slug', $slug)->first();
-        return view('admin.buyers.edit', ['buyer' => $buyer]);
+        // $transaction = Transaction::where('slug', $slug)->first();
+        return view('admin.transactions.edit', ['transaction' => $transaction]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $buyer)
+    public function update(Request $request, Transaction $transaction)
     {
         if (!Auth::user()->hasRole('owner')) {
             abort(403, 'Unauthorized action.');
@@ -93,37 +92,37 @@ class BuyerController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => [
                 'required',
-                Rule::unique('buyers')->ignore($buyer),
+                Rule::unique('transactions')->ignore($transaction),
                 'max:255'
             ],
         ]);
         if ($validator->fails()) {
-            return redirect('/admin.buyers.edit')
+            return redirect('/admin.transactions.edit')
                 ->withErrors($validator)
                 ->withInput();
         }
         $request['slug'] = Str::of($request['name'])->slug('-');
-        $buyer->update($request->all());
-        // dd($buyer);
+        $transaction->update($request->all());
+        // dd($transaction);
         Session::flash('status', 'success');
-        Session::flash('message', "User $buyer->name was updated!");
-        return redirect('admin/buyers');
+        Session::flash('message', "Transaction $transaction->name was updated!");
+        return redirect('admin/transactions');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $buyer)
+    public function destroy(Transaction $transaction)
     {
         if (!Auth::user()->hasRole('owner')) {
             abort(403, 'Unauthorized action.');
         }
-        // $buyer =  User::where('slug', $slug)->first();
-        $buyer->delete();
+        // $transaction =  Transaction::where('slug', $slug)->first();
+        $transaction->delete();
         Session::flash('status', 'success');
-        Session::flash('message', "User $buyer->name was deleted!");
-        return redirect('admin/buyers');
-        dd($buyer);
+        Session::flash('message', "Transaction $transaction->name was deleted!");
+        return redirect('admin/transactions');
+        dd($transaction);
         //
     }
 }

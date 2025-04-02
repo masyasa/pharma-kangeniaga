@@ -6,7 +6,7 @@ use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductTransactionController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,8 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->middleware('role:owner')->group(function () {
         Route::resource('products', ProductController::class)->parameters(['products' => 'product:slug']);;
         Route::resource('categories', CategoryController::class)->parameters(['categories' => 'category:slug']);
-        Route::resource('buyers', BuyerController::class)->parameters(['buyers' => 'buyer:slug']);;
-        Route::resource('product_transactions', ProductTransactionController::class)->parameters(['product_transactions' => 'product_transaction:slug']);;
+        Route::resource('buyers', BuyerController::class)->parameters(['buyers' => 'buyer:name']);;
+        Route::resource('transactions', TransactionController::class)->parameters(['transactions' => 'transaction:slug']);;
     });
     Route::prefix('buyer')->name('buyer.')->group(function () {
         Route::resource('cart', CartController::class)->middleware('role:buyer');
