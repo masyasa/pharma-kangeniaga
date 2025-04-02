@@ -48,7 +48,7 @@
                                 <th class="py-3 px-6">No.</th>
                                 <th class="py-3 px-6">Nama</th>
                                 <th class="py-3 px-6">Slug</th>
-                                <th class="py-3 px-6">Icon</th>
+                                <th class="py-3 px-6">Kategori</th>
                                 <th class="py-3 px-6">Aksi</th>
                             </tr>
                         </thead>
@@ -58,7 +58,12 @@
                                     <td class="py-3 px-6 ">{{ $loop->iteration }}</td>
                                     <td class="py-3 px-6 ">{{ $item->name }}</td>
                                     <td class="py-3 px-6 ">{{ $item->slug }}</td>
-                                    <td class="py-3 px-6">{{ $item->icon }}</td>
+                                    <td class="py-3 px-6">
+                                        {{-- {{ dd($products) }} --}}
+                                        @foreach ($item->categories as $category)
+                                            {{ $loop->iteration }}. {{ $category->name }} <br>
+                                        @endforeach
+                                    </td>
                                     <td class="py-3 px-6">
 
                                         {{-- <a href={{route('/admin/products/ {{ $item->slug}}/edit')}}
@@ -70,8 +75,8 @@
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
 
-                                        <form action="{{ route('admin.products.destroy', $item->slug) }}" method="POST"
-                                            class="inline"
+                                        <form action="{{ route('admin.products.destroy', $item->slug) }}"
+                                            method="POST" class="inline"
                                             onsubmit="return confirm('Anda yakin akan menghapus produk: {{ $item->name }}?');">
                                             @csrf
                                             @method('DELETE')

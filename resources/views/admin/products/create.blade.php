@@ -38,9 +38,9 @@
                             <div>
                                 <label for="about" class="block text-sm font-medium text-gray-600">Kategori
                                     :</label>
-                                <select name="categories[]" id="category" multiple>
+                                <select class="category-multiple" name="categories[]" multiple>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->name }}">
+                                        <option value="{{ $category->id }}">
                                             {{ $category->name }}</option>
                                     @endforeach
                                 </select>

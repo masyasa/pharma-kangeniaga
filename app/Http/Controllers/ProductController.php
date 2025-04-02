@@ -20,6 +20,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
+        // $categories = Product::with('batuk')->find(1)->categories;
+        // dd($categories);
         return view('admin.products.index', ['products' => $products]);
     }
 
@@ -54,6 +56,7 @@ class ProductController extends Controller
         $request['slug'] = Str::of($request->name)->slug('-');
         $data = $request->all();
         $product =  Product::create($data);
+        $product->categories()->sync($request->categories);
 
         Session::flash('status', 'success');
         Session::flash('message', 'Your new product was stored!');

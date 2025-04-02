@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use League\CommonMark\Extension\CommonMark\Node\Block\ThematicBreak;
 
 class Category extends Model
 {
@@ -16,6 +17,6 @@ class Category extends Model
     ];
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class);
     }
 }
