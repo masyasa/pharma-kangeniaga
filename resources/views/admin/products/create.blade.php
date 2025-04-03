@@ -29,7 +29,11 @@
                             <div><label for="price" class="block text-sm font-medium text-gray-600">Price
                                     :</label><input
                                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    type="text" name="price"></div>
+                                    type="number" name="price"></div>
+                            <div><label for="stock" class="block text-sm font-medium text-gray-600">Stock
+                                    :</label><input
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    type="number" name="stock"></div>
                             <div><label for="about" class="block text-sm font-medium text-gray-600">About
                                     :</label><input
                                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"

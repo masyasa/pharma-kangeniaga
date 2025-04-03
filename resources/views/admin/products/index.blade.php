@@ -48,36 +48,40 @@
                                 <th class="py-3 px-6">No.</th>
                                 <th class="py-3 px-6">Nama</th>
                                 <th class="py-3 px-6">Slug</th>
+                                <th class="py-3 px-6">Harga</th>
+                                <th class="py-3 px-6">Stok</th>
                                 <th class="py-3 px-6">Kategori</th>
                                 <th class="py-3 px-6">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($products as $item)
+                            @foreach ($products as $product)
                                 <tr class="bg-gray-100 border-b hover:bg-gray-200 text-center">
                                     <td class="py-3 px-6 ">{{ $loop->iteration }}</td>
-                                    <td class="py-3 px-6 ">{{ $item->name }}</td>
-                                    <td class="py-3 px-6 ">{{ $item->slug }}</td>
-                                    <td class="py-3 px-6">
+                                    <td class="py-3 px-6 ">{{ $product->name }}</td>
+                                    <td class="py-3 px-6 ">{{ $product->slug }}</td>
+                                    <td class="py-3 px-6 ">{{ $product->price }}</td>
+                                    <td class="py-3 px-6 ">{{ $product->stock }}</td>
+                                    <td class="py-3 pl-10 text-left">
                                         {{-- {{ dd($products) }} --}}
-                                        @foreach ($item->categories as $category)
+                                        @foreach ($product->categories as $category)
                                             {{ $loop->iteration }}. {{ $category->name }} <br>
                                         @endforeach
                                     </td>
                                     <td class="py-3 px-6">
 
-                                        {{-- <a href={{route('/admin/products/ {{ $item->slug}}/edit')}}
+                                        {{-- <a href={{route('/admin/products/ {{ $product->slug}}/edit')}}
                                             class="inline-flex items-center px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a> --}}
-                                        <a href="{{ route('admin.products.edit', $item->slug) }}"
+                                        <a href="{{ route('admin.products.edit', $product->slug) }}"
                                             class="inline-flex items-center px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
 
-                                        <form action="{{ route('admin.products.destroy', $item->slug) }}"
+                                        <form action="{{ route('admin.products.destroy', $product->slug) }}"
                                             method="POST" class="inline"
-                                            onsubmit="return confirm('Anda yakin akan menghapus produk: {{ $item->name }}?');">
+                                            onsubmit="return confirm('Anda yakin akan menghapus produk: {{ $product->name }}?');">
                                             @csrf
                                             @method('DELETE')
                                             {{-- <input type="hidden"> --}}

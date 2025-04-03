@@ -53,9 +53,13 @@ class ProductController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
         $request['slug'] = Str::of($request->name)->slug('-');
         $data = $request->all();
+        // dd($data);
+
         $product =  Product::create($data);
+
         $product->categories()->sync($request->categories);
 
         Session::flash('status', 'success');
@@ -121,6 +125,8 @@ class ProductController extends Controller
             abort(403, 'Unauthorized action.');
         }
         $product->delete();
+        // dd($product);
+
         Session::flash('status', 'success');
         Session::flash('message', "Product $product->name was deleted!");
         return redirect('admin/products');
