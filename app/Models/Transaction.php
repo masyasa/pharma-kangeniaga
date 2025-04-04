@@ -9,19 +9,20 @@ class Transaction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
-        'total_amount',
-        'is_paid',
-        'address',
-        'city',
-        'post_code',
-        'phone_number',
+        'payment_id',
+        'date',
+        'status',
+        'amount_paid',
         'proof',
         'notes'
     ];
 
-    public function buyer()
+    public function payment()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Payment::class);
+    }
+    public function shipping()
+    {
+        return $this->hasOne(Shipping::class);
     }
 }

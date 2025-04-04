@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('price')->required();
             $table->unsignedBigInteger('stock')->required();
             $table->text('about')->nullable();
-            // $table->foreignId('category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

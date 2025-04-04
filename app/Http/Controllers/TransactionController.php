@@ -35,14 +35,14 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Auth::user()->hasRole('owner')) {
+        if (!Auth::user()->hasRole('buyer')) {
             abort(403, 'Unauthorized action.');
         }
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:transactions|max:255'
         ]);
         if ($validator->fails()) {
-            return redirect('/admin/transactions/create')
+            return redirect('/buyer/transactions/create')
                 ->withErrors($validator)
                 ->withInput();
         }

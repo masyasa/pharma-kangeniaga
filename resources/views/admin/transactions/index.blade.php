@@ -29,8 +29,8 @@
                     <div class="d-flex justify-content-end mb-3">
                         <a class="bg-gray-100 border-b hover:bg-gray-200 btn btn-primary btn-sm me-2"
                             href="/transaksi-deleted">Deleted Transaction</a>
-                        <a class="bg-gray-100 border-b hover:bg-gray-200 btn btn-primary btn-sm "
-                            href="{{ route('admin.transactions.create') }}">Add Transaction</a>
+                        {{-- <a class="bg-gray-100 border-b hover:bg-gray-200 btn btn-primary btn-sm "
+                            href="{{ route('admin.transactions.create') }}">Add Transaction</a> --}}
                     </div>
                 </div>
             </div>
